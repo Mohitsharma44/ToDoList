@@ -3,6 +3,7 @@ package com.sharmamohit.todolist;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setAdapter(itemsAdapter);
         items.add("First Item");
         items.add("Second Item");
+        setUpListViewListener();
     }
 
     public void onAddItem(View v) {
@@ -32,5 +34,21 @@ public class MainActivity extends AppCompatActivity {
         String itemText = etNewItem.getText().toString();
         itemsAdapter.add(itemText);
         etNewItem.setText("");
+    }
+
+    private void setUpListViewListener() {
+        lvItems.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapter,
+                                                   View view,
+                                                   int pos,
+                                                   long id) {
+                        items.remove(pos);
+                        itemsAdapter.notifyDataSetChanged();
+                        return true;
+                    }
+                }
+        );
     }
 }
